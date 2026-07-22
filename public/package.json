@@ -1,0 +1,42 @@
+{
+  "name": "awesome-react-native-catalog",
+  "version": "1.0.0",
+  "description": "A comprehensive catalog of React Native libraries and resources",
+  "private": true,
+  "scripts": {
+    "sync": "tsx scripts/sync-content.ts",
+    "build:index": "tsx scripts/build-index.ts",
+    "fetch:awa": "tsx scripts/fetch-awa-posts.ts",
+    "build:docs": "cd docs && npm run build",
+    "dev": "cd docs && npm start",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\""
+  },
+  "keywords": [
+    "react-native",
+    "catalog",
+    "libraries",
+    "components",
+    "documentation"
+  ],
+  "author": "Utkarsh Lubal",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "prettier": "^3.1.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.2"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "rss-parser": "^3.13.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}
+
