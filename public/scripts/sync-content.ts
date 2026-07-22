@@ -11,6 +11,7 @@ import { execSync } from 'child_process';
 import { readFileSync, writeFileSync, existsSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { createHash } from 'crypto';
+import { pickCommitMessageFromDate } from './commit-messages';
 
 interface SyncMetadata {
   lastSync: string;
@@ -227,9 +228,10 @@ async function processContributionEntries(metadata: SyncMetadata): Promise<void>
         await updateBadge(metadata);
 
         // Create commit with specific timestamp
-        // Use consistent commit message that looks legitimate
+        // Use dynamic repo-specific commit message
         execSync('git add content/index.meta.json content/badges.svg', { stdio: 'pipe' });
-        execSync(`git commit -m "chore(docs): refresh metadata" --date="${commitDate}"`, {
+        const commitMessage = pickCommitMessageFromDate(`${date} ${hour}:${minute}`);
+        execSync(`git commit -m "${commitMessage}" --date="${commitDate}"`, {
           stdio: 'pipe',
           env: {
             ...process.env,
