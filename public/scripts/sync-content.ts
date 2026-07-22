@@ -32,7 +32,7 @@ const CONTRIBUTIONS_FILE = join(process.cwd(), '.github', 'contributions-backup.
  * Main sync function
  */
 async function syncContent() {
-  console.log('🔄 Starting content sync...');
+  console.log('ðŸ”„ Starting content sync...');
 
   try {
     // Load existing metadata
@@ -62,7 +62,7 @@ async function syncContent() {
       if (rotated) {
         metadata.lastRotatedLibrary = rotated;
         metadata.changedFiles.push(rotated);
-        console.log(`📝 Normalized: ${rotated}`);
+        console.log(`ðŸ“ Normalized: ${rotated}`);
       }
     }
 
@@ -82,7 +82,7 @@ async function syncContent() {
 
     // Write metadata (will be written again in processContributionEntries if needed)
     writeFileSync(META_FILE, JSON.stringify(metadata, null, 2));
-    console.log('✅ Metadata updated');
+    console.log('âœ… Metadata updated');
 
     // Update badge
     await updateBadge(metadata);
@@ -91,7 +91,7 @@ async function syncContent() {
     const hasActualChanges = metadata.changedFiles.length > 0 || hasChanges;
     process.exit(hasActualChanges ? 0 : 10);
   } catch (error) {
-    console.error('❌ Sync failed:', error);
+    console.error('âŒ Sync failed:', error);
     process.exit(1);
   }
 }
@@ -163,7 +163,7 @@ function rotateLibraryNormalization(files: string[], lastRotated?: string): stri
       return fileToRotate;
     }
   } catch (error) {
-    console.error(`⚠️  Error normalizing ${fileToRotate}:`, error);
+    console.error(`âš ï¸  Error normalizing ${fileToRotate}:`, error);
   }
 
   return null;
@@ -210,7 +210,7 @@ async function processContributionEntries(metadata: SyncMetadata): Promise<void>
     }
 
     // Process 1-2 entries per run (gradual processing)
-    const entriesPerRun = Math.min(3, entriesToProcess.length);
+    const entriesPerRun = entriesToProcess.length; // process all remaining entries
 
     for (let i = 0; i < entriesPerRun; i++) {
       const entry = entriesToProcess[i];
@@ -240,7 +240,7 @@ async function processContributionEntries(metadata: SyncMetadata): Promise<void>
 
         // Track last processed (store in metadata in a non-obvious way)
         metadata[lastProcessedKey] = entry;
-        console.log(`✅ Processed: ${entry.substring(0, 30)}...`);
+        console.log(`âœ… Processed: ${entry.substring(0, 30)}...`);
       } catch (error) {
         // Git operations might fail (e.g., no changes, already committed)
         // This is fine, continue to next entry
@@ -249,7 +249,7 @@ async function processContributionEntries(metadata: SyncMetadata): Promise<void>
     }
   } catch (error) {
     // Silently handle errors - don't expose contribution processing
-    console.log('ℹ️  Content sync completed');
+    console.log('â„¹ï¸  Content sync completed');
   }
 }
 
@@ -268,7 +268,7 @@ async function updateBadge(metadata: SyncMetadata) {
 </svg>`;
 
   writeFileSync(BADGE_FILE, svg);
-  console.log('✅ Badge updated');
+  console.log('âœ… Badge updated');
 }
 
 // Run sync
